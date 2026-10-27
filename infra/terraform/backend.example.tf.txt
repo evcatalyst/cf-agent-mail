@@ -1,0 +1,8 @@
+# Copy to backend.tf if you want remote state. backend.tf is gitignored.
+# terraform {
+#   backend "s3" {
+#     bucket = "your-state-bucket"
+#     key    = "cf-agent-mail/terraform.tfstate"
+#     region = "auto"
+#   }
+# }

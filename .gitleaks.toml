@@ -1,0 +1,20 @@
+title = "cf-agent-mail"
+
+[allowlist]
+description = "Local development placeholders. These are not credentials."
+paths = [
+  '''wrangler\.jsonc''',
+  '''cf-agent-mail\.config\.example\.json''',
+  '''docs/.*''',
+  '''README\.md''',
+  '''tests/.*''',
+]
+regexes = [
+  '''dev-pepper-not-a-secret''',
+  '''dev-reply-hmac-not-a-secret''',
+  '''dev-webhook-key-not-a-secret''',
+  '''cam_owner_test_token_value''',
+  '''cam_surveys_test_token_value''',
+  '''cam_socials_test_token_value''',
+  '''cam_system_test_token_value''',
+]

@@ -1,0 +1,85 @@
+// Generated from your config. Do not put secrets in this file.
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "cf-agent-mail-processor",
+  "main": "../../src/entry-processor.ts",
+  "compatibility_date": "2026-10-27",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "account_id": "YOUR_ACCOUNT_ID",
+  "workers_dev": false,
+  "observability": {
+    "enabled": true,
+    "traces": {
+      "enabled": true
+    }
+  },
+  "vars": {
+    "MAIL_DOMAIN": "mail.example.com",
+    "SYSTEM_DOMAIN": "login.example.com",
+    "SYSTEM_FROM": "login@login.example.com",
+    "OWNER_ALLOWLIST": "owner@example.com",
+    "PUBLIC_BASE_URL": "https://relay.example.com",
+    "AUTH_MODE": "token",
+    "PARSE_MAX_BYTES": "10485760",
+    "ENFORCE_KNOWN_AUTO": "false",
+    "ACCESS_TEAM_DOMAIN": "",
+    "ACCESS_AUD": ""
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "cf-agent-mail",
+      "database_id": "YOUR_D1_DATABASE_ID",
+      "migrations_dir": "../../migrations"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "RAW",
+      "bucket_name": "cf-agent-mail-raw"
+    },
+    {
+      "binding": "ATTACHMENTS",
+      "bucket_name": "cf-agent-mail-att"
+    }
+  ],
+  "triggers": {
+    "crons": [
+      "15 4 * * *"
+    ]
+  },
+  "queues": {
+    "producers": [
+      {
+        "binding": "WAKE_QUEUE",
+        "queue": "cf-agent-mail-wake"
+      },
+      {
+        "binding": "DLQ",
+        "queue": "cf-agent-mail-dlq"
+      }
+    ],
+    "consumers": [
+      {
+        "queue": "cf-agent-mail-parse",
+        "max_batch_size": 10,
+        "max_retries": 3,
+        "dead_letter_queue": "cf-agent-mail-dlq"
+      },
+      {
+        "queue": "cf-agent-mail-events",
+        "max_batch_size": 10,
+        "max_retries": 3,
+        "dead_letter_queue": "cf-agent-mail-dlq"
+      },
+      {
+        "queue": "cf-agent-mail-wake",
+        "max_batch_size": 10,
+        "max_retries": 3,
+        "dead_letter_queue": "cf-agent-mail-dlq"
+      }
+    ]
+  }
+}

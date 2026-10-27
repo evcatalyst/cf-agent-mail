@@ -1,0 +1,7 @@
+account_id            = "YOUR_ACCOUNT_ID"
+zone_id               = "YOUR_ZONE_ID"
+resource_prefix       = "cf-agent-mail"
+mail_hostname         = "mail.example.com"
+system_hostname       = "login.example.com"
+enable_email_sending  = false
+enable_routing        = false

@@ -1,0 +1,31 @@
+{
+  "name": "cf-agent-mail",
+  "version": "0.1.0",
+  "description": "Self-hosted agent mailboxes on your own Cloudflare account. Agents read and draft mail; third-party sends wait for review.",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "wrangler dev",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check .",
+    "format": "biome check --write .",
+    "types": "wrangler types"
+  },
+  "dependencies": {
+    "postal-mime": "^4.1.4"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.6.3",
+    "@cloudflare/vitest-plugin": "1.4.8",
+    "@cloudflare/workers-types": "5.20261027.1",
+    "@vitest/runner": "4.1.11",
+    "@vitest/snapshot": "4.1.11",
+    "typescript": "5.9.3",
+    "vitest": "4.1.11",
+    "wrangler": "4.153.0"
+  }
+}
