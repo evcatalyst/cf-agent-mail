@@ -1,0 +1,58 @@
+{
+  // Local development and tests only. Do not deploy this file.
+  // Production Workers are rendered from your config by bootstrap/onboard.sh.
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "cf-agent-mail",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-27",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "observability": {
+    "enabled": true,
+    "traces": { "enabled": true }
+  },
+  "vars": {
+    "MAIL_DOMAIN": "mail.example.com",
+    "SYSTEM_DOMAIN": "login.example.com",
+    "SYSTEM_FROM": "login@login.example.com",
+    "OWNER_ALLOWLIST": "owner@example.com",
+    "TOKEN_PEPPER": "dev-pepper-not-a-secret",
+    "REPLY_HMAC_KEY": "dev-reply-hmac-not-a-secret",
+    "WEBHOOK_SIGNING_KEY": "dev-webhook-key-not-a-secret",
+    "EMAIL_MODE": "record",
+    "INLINE_PARSE": "1",
+    "ENFORCE_KNOWN_AUTO": "false",
+    "PUBLIC_BASE_URL": "http://127.0.0.1:8787",
+    "AUTH_MODE": "token",
+    "PARSE_MAX_BYTES": "10485760",
+    "ACCESS_TEAM_DOMAIN": "",
+    "ACCESS_AUD": ""
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "cf-agent-mail",
+      "database_id": "local-cf-agent-mail",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "r2_buckets": [
+    { "binding": "RAW", "bucket_name": "cf-agent-mail-raw" },
+    { "binding": "ATTACHMENTS", "bucket_name": "cf-agent-mail-att" }
+  ],
+  "queues": {
+    // Consumers live on workers/processor. This file parses inline so tests do not deliver the same message twice.
+    "producers": [
+      { "binding": "PARSE_QUEUE", "queue": "cf-agent-mail-parse" },
+      { "binding": "EVENTS_QUEUE", "queue": "cf-agent-mail-events" },
+      { "binding": "WAKE_QUEUE", "queue": "cf-agent-mail-wake" },
+      { "binding": "DLQ", "queue": "cf-agent-mail-dlq" }
+    ]
+  },
+  "send_email": [{ "name": "EMAIL" }],
+  "durable_objects": {
+    "bindings": [{ "name": "MAILBOX", "class_name": "Mailbox" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Mailbox"] }],
+  "triggers": { "crons": ["15 4 * * *"] }
+}

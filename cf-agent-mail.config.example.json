@@ -1,0 +1,14 @@
+{
+  "account_id": "YOUR_ACCOUNT_ID",
+  "zone_id": "YOUR_ZONE_ID",
+  "zone_name": "example.com",
+  "mail_subdomain": "mail",
+  "system_subdomain": "login",
+  "api_subdomain": "relay",
+  "owner_email": "owner@example.com",
+  "mailbox_slugs": ["surveys", "socials", "pilot"],
+  "resource_prefix": "cf-agent-mail",
+  "enable_email_sending": false,
+  "enable_routing": false,
+  "enable_access": false
+}
